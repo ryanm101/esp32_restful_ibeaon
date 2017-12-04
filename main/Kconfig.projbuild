@@ -20,4 +20,34 @@ config WIFI_PASSWORD
 
 		Can be left blank if the network has no security set.
 
+config BT_UUID
+    string "iBeacon UUID"
+	default "eb86da80-cded-44f5-b443-f0bf1b7702a7"
+	help
+		UUID to Use for the iBeacon
+
+config BT_MJR 
+    string "iBeacon Major Numer"
+	default "1"
+	help
+		Major Number to use for iBeacon
+
+config BT_MNR 
+    string "iBeacon Minor Number"
+	default "1"
+	help
+		Minor Number to use for iBeacon
+
+config HA_HOST 
+    string "Home-Assistant Server"
+	default "HAServer"
+	help
+		Home-Assistant Server to connect to
+
+config HA_PORT
+    string "Home-Assistant Server Port"
+	default "8123"
+	help
+		Port to use for connection to Home-Assistant
+
 endmenu
