@@ -22,3 +22,5 @@ Objectives
 * (TODO) Report iBeacons Detected to HTTP Server via REST POST ()
 * (TODO) Broadcast iBeacon every ~500ms
 * (TODO) ID if Broadcast & Search be done synchronously?
+* (TODO) update OTA
+* (TODO) SetConfig via txt / REST
