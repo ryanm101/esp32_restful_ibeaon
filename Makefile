@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := homeassistant_beacon
+PROJECT_NAME := rest_beaon
 
 include $(IDF_PATH)/make/project.mk
 
