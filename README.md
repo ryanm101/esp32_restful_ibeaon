@@ -1,8 +1,8 @@
-ESP32 BLE beacon tracker
-========================
+ESP32 BLE ibeacon broadcaster & tracker
+=======================================
 
 
-Work in progress to implement an BLE sniffer sending packets through MQTT
+Work in progress to implement an BLE sniffer sending packets through REST
 
 Installation
 ------------
