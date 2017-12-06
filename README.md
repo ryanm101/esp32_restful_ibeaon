@@ -21,7 +21,8 @@ Objectives
 ----------
 
 * (Partially Implemtented) Scan for BLE iBeacon (Search for ~500ms)
-* (TODO) Report iBeacons Detected to HTTP Server via REST POST ()
+* (TODO) Report iBeacons Detected to HTTP Server via REST POST
+          {[{'name': 'ibeaconA', 'uuid': '00000000-0000-0000-0000-000000000000', 'major': 0, 'minor': 0}]}
 * (TODO) Broadcast iBeacon every ~500ms
 * (TODO) ID if Broadcast & Search be done synchronously?
 * (TODO) update OTA
