@@ -22,7 +22,7 @@ before_install:
   - export IDF_PATH=/tmp/esp-idf
   - cd ${IDF_PATH} && git checkout v2.1.1 && git submodule update --init
 
-install: make get-deps
+install: make
 
 compiler:
   - clang
