@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/ryanm101/esp32_restful_ibeaon.svg?branch=master)](https://travis-ci.org/ryanm101/esp32_restful_ibeaon)
+[![License][license-shield]](LICENSE.md)
 
 ESP32 BLE ibeacon broadcaster & tracker
 =======================================
