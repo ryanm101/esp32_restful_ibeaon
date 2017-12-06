@@ -22,6 +22,7 @@ before_install:
   - export IDF_PATH=/tmp/esp-idf
   - git -C ${IDF_PATH} checkout v2.1.1
   - git -C ${IDF_PATH} submodule update --init
+  - cp sdkconfig_dummy sdkconfig
 
 install: make
 
