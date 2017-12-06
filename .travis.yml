@@ -13,7 +13,7 @@ addons:
     - python
     - python-serial
     
-before_install:
+install:
   - wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-61-gab8375a-5.2.0.tar.gz
   - mkdir /tmp/esp
   - tar xzf xtensa-esp32-elf-linux64-1.22.0-61-gab8375a-5.2.0.tar.gz -C /tmp/esp/
@@ -24,7 +24,7 @@ before_install:
   - git -C ${IDF_PATH} submodule update --init
   - cp sdkconfig_dummy sdkconfig
 
-install: make
+script: make
 
 compiler:
   - clang
