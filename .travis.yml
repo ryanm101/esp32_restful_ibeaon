@@ -20,7 +20,8 @@ before_install:
   - export PATH=$PATH:/tmp/esp/xtensa-esp32-elf/bin
   - git clone --recursive https://github.com/espressif/esp-idf.git /tmp/esp-idf
   - export IDF_PATH=/tmp/esp-idf
-  - cd ${IDF_PATH} && git checkout v2.1.1 && git submodule update --init
+  - git checkout v2.1.1 --git-dir=${IDF_PATH}
+  - git submodule update --init --git-dir=${IDF_PATH}
 
 install: make
 
