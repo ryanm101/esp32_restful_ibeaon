@@ -1,0 +1,30 @@
+language: c
+
+addons:
+  apt:
+    packages:
+    - git
+    - wget
+    - make
+    - libncurses5-dev
+    - flex
+    - bison
+    - gperf
+    - python
+    - python-serial
+    
+before_install:
+  - wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-61-gab8375a-5.2.0.tar.gz
+  - mkdir /tmp/esp
+  - tar xzf xtensa-esp32-elf-linux64-1.22.0-61-gab8375a-5.2.0.tar.gz -C /tmp/esp/
+  - export PATH=$PATH:/tmp/esp/xtensa-esp32-elf/bin
+  - git clone --recursive https://github.com/espressif/esp-idf.git /tmp/esp-idf
+  - export IDF_PATH=/tmp/esp-idf
+  - cd ${IDF_PATH} && git checkout v2.1.1 && git submodule update --init
+
+install: make get-deps
+
+compiler:
+  - clang
+  - gcc
+      
