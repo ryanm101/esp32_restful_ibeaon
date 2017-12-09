@@ -12,15 +12,15 @@ addons:
     - gperf
     - python
     - python-serial
-    
+
 install:
-  - wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-61-gab8375a-5.2.0.tar.gz
+  - wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-75-gbaf03c2-5.2.0.tar.gz
   - mkdir /tmp/esp
-  - tar xzf xtensa-esp32-elf-linux64-1.22.0-61-gab8375a-5.2.0.tar.gz -C /tmp/esp/
+  - tar xzf xtensa-esp32-elf-linux64-1.22.0-75-gbaf03c2-5.2.0.tar.gz -C /tmp/esp/
   - export PATH=$PATH:/tmp/esp/xtensa-esp32-elf/bin
   - git clone --recursive https://github.com/espressif/esp-idf.git /tmp/esp-idf
   - export IDF_PATH=/tmp/esp-idf
-  - git -C ${IDF_PATH} checkout v2.1.1
+  - git -C ${IDF_PATH} checkout v3.0-rc1
   - git -C ${IDF_PATH} submodule update --init
   - cp sdkconfig_dummy sdkconfig
 
@@ -29,4 +29,3 @@ script: make
 compiler:
   - clang
   - gcc
-      
