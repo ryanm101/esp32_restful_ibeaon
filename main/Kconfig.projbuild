@@ -27,14 +27,14 @@ config BT_UUID
 		UUID to Use for the iBeacon
 
 config BT_MJR
-  string "iBeacon Major Numer"
-	default "1"
+  int "iBeacon Major Numer"
+	default 1
 	help
 		Major Number to use for iBeacon
 
 config BT_MNR
-  string "iBeacon Minor Number"
-	default "1"
+  int "iBeacon Minor Number"
+	default 1
 	help
 		Minor Number to use for iBeacon
 

@@ -49,8 +49,8 @@
  * if device advertises using ESP defined UUID. 
  * Please refer to http://zb.weixin.qq.com for further information. */
 #define ESP_UUID    {0xFD, 0xA5, 0x06, 0x93, 0xA4, 0xE2, 0x4F, 0xB1, 0xAF, 0xCF, 0xC6, 0xEB, 0x07, 0x64, 0x78, 0x25}
-#define ESP_MAJOR   10167
-#define ESP_MINOR   61958
+#define ESP_MAJOR   (uint16_t)CONFIG_BT_MJR
+#define ESP_MINOR   (uint16_t)CONFIG_BT_MNR
 
 
 typedef struct {

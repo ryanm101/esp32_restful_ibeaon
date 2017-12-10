@@ -23,6 +23,13 @@
 #include "controller.h"
 #include "nvs_flash.h"
 
+#include "freertos/FreeRTOS.h"
+#include "esp_wifi.h"
+#include "esp_system.h"
+#include "esp_event.h"
+#include "esp_event_loop.h"
+#include "driver/gpio.h"
+
 #include "esp_bt.h"
 #include "esp_gap_ble_api.h"
 #include "esp_gattc_api.h"
@@ -31,14 +38,21 @@
 #include "esp_ibeacon_api.h"
 
 
+
 //the unit of the duration is second, 0 means scan permanently
 uint32_t scan_duration = 1;
 static const char* DEMO_TAG = "IBEACON_DEMO";
 extern esp_ble_ibeacon_vendor_t vendor_config;
 
+esp_err_t event_handler(void *ctx, system_event_t *event)
+{
+    return ESP_OK;
+}
+
 ///Declare static functions
 static void esp_gap_cb(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param);
 
+// Scanning Params
 static esp_ble_scan_params_t ble_scan_params = {
     .scan_type              = BLE_SCAN_TYPE_ACTIVE,
     .own_addr_type          = BLE_ADDR_TYPE_PUBLIC,
@@ -47,6 +61,7 @@ static esp_ble_scan_params_t ble_scan_params = {
     .scan_window            = 0x30
 };
 
+// Broadcasting Params
 static esp_ble_adv_params_t ble_adv_params = {
     .adv_int_min        = 0x20,
     .adv_int_max        = 0x40,
@@ -153,6 +168,27 @@ void ble_ibeacon_init(void)
 void app_main()
 {
     ESP_ERROR_CHECK(nvs_flash_init());
+
+    // WiFi
+    tcpip_adapter_init();
+    ESP_ERROR_CHECK( esp_event_loop_init(event_handler, NULL) );
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK( esp_wifi_init(&cfg) );
+    ESP_ERROR_CHECK( esp_wifi_set_storage(WIFI_STORAGE_RAM) );
+    ESP_ERROR_CHECK( esp_wifi_set_mode(WIFI_MODE_STA) );
+    wifi_config_t sta_config = {
+            .sta = {
+                    .ssid = CONFIG_WIFI_SSID,
+                    .password = CONFIG_WIFI_PASSWORD,
+                    .bssid_set = false
+            }
+    };
+    ESP_ERROR_CHECK( esp_wifi_set_config(WIFI_IF_STA, &sta_config) );
+    ESP_ERROR_CHECK( esp_wifi_start() );
+    ESP_ERROR_CHECK( esp_wifi_connect() );
+
+
+    // Bluetooth
     esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
     esp_bt_controller_init(&bt_cfg);
     esp_bt_controller_enable(ESP_BT_MODE_BTDM);
