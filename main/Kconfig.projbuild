@@ -1,0 +1,71 @@
+menu "Network Configuration"
+
+config ESP_NAME
+    string "ESP Name"
+    default "ESP32_Name_"
+    help
+      Friendly name, last IP byte will be appended
+
+config WIFI_SSID
+  string "WiFi SSID"
+	default "myssid"
+	help
+		SSID (network name) for the example to connect to.
+
+config WIFI_PASSWORD
+  string "WiFi Password"
+	default "myPassword"
+	help
+		WiFi password (WPA or WPA2) for the example to use.
+
+		Can be left blank if the network has no security set.
+
+config BT_UUID
+  string "iBeacon UUID"
+	default "eb86da80-cded-44f5-b443-f0bf1b7702a7"
+	help
+		UUID to Use for the iBeacon
+
+config BT_MJR
+  string "iBeacon Major Numer"
+	default "1"
+	help
+		Major Number to use for iBeacon
+
+config BT_MNR
+  string "iBeacon Minor Number"
+	default "1"
+	help
+		Minor Number to use for iBeacon
+
+config REST_HOST
+  string "REST Server"
+	default "ServerName"
+	help
+		REST Server to connect to
+
+config REST_PORT
+  string "REST Server Port"
+	default "80"
+	help
+		Port to use for connection to Rest Host
+
+config REST_URI
+  string "Path to send POST data to "
+	default "/api/"
+	help
+		URI to send iBeacon detection data to
+
+config REST_USER
+  string "(optional) REST Username"
+	default ""
+	help
+		Username to connect to REST Server with
+
+config REST_PASS
+  string "(optional) REST password"
+	default ""
+	help
+		Password to connect to REST Server with
+
+endmenu

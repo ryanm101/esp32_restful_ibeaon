@@ -31,13 +31,14 @@
 #include "esp_ibeacon_api.h"
 
 
+//the unit of the duration is second, 0 means scan permanently
+uint32_t scan_duration = 1;
 static const char* DEMO_TAG = "IBEACON_DEMO";
 extern esp_ble_ibeacon_vendor_t vendor_config;
 
 ///Declare static functions
 static void esp_gap_cb(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param);
 
-#if (IBEACON_MODE == IBEACON_RECEIVER)
 static esp_ble_scan_params_t ble_scan_params = {
     .scan_type              = BLE_SCAN_TYPE_ACTIVE,
     .own_addr_type          = BLE_ADDR_TYPE_PUBLIC,
@@ -46,7 +47,6 @@ static esp_ble_scan_params_t ble_scan_params = {
     .scan_window            = 0x30
 };
 
-#elif (IBEACON_MODE == IBEACON_SENDER)
 static esp_ble_adv_params_t ble_adv_params = {
     .adv_int_min        = 0x20,
     .adv_int_max        = 0x40,
@@ -55,24 +55,17 @@ static esp_ble_adv_params_t ble_adv_params = {
     .channel_map        = ADV_CHNL_ALL,
     .adv_filter_policy = ADV_FILTER_ALLOW_SCAN_ANY_CON_ANY,
 };
-#endif
 
 
 static void esp_gap_cb(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
 {
     switch (event) {
     case ESP_GAP_BLE_ADV_DATA_RAW_SET_COMPLETE_EVT:{
-#if (IBEACON_MODE == IBEACON_SENDER)
         esp_ble_gap_start_advertising(&ble_adv_params);
-#endif
         break;
     }
     case ESP_GAP_BLE_SCAN_PARAM_SET_COMPLETE_EVT: {
-#if (IBEACON_MODE == IBEACON_RECEIVER)
-        //the unit of the duration is second, 0 means scan permanently
-        uint32_t duration = 0;
-        esp_ble_gap_start_scanning(duration);
-#endif
+        esp_ble_gap_start_scanning(scan_duration);
         break;
     }
     case ESP_GAP_BLE_SCAN_START_COMPLETE_EVT:
@@ -166,19 +159,16 @@ void app_main()
 
     ble_ibeacon_init();
 
-    /* set scan parameters */
-#if (IBEACON_MODE == IBEACON_RECEIVER)
-    esp_ble_gap_set_scan_params(&ble_scan_params);
-
-#elif (IBEACON_MODE == IBEACON_SENDER)
-    esp_ble_ibeacon_t ibeacon_adv_data;
-    esp_err_t status = esp_ble_config_ibeacon_data (&vendor_config, &ibeacon_adv_data);
-    if (status == ESP_OK){
-        esp_ble_gap_config_adv_data_raw((uint8_t*)&ibeacon_adv_data, sizeof(ibeacon_adv_data));
+    while(true) {
+        esp_ble_gap_set_scan_params(&ble_scan_params);
+        esp_ble_ibeacon_t ibeacon_adv_data;
+        esp_err_t status = esp_ble_config_ibeacon_data(&vendor_config, &ibeacon_adv_data);
+        if (status == ESP_OK) {
+            esp_ble_gap_config_adv_data_raw((uint8_t * ) & ibeacon_adv_data, sizeof(ibeacon_adv_data));
+        } else {
+            ESP_LOGE(DEMO_TAG, "Config iBeacon data failed, status =0x%x\n", status);
+        }
+        vTaskDelay(500 + scan_duration);
     }
-    else {
-        ESP_LOGE(DEMO_TAG, "Config iBeacon data failed, status =0x%x\n", status);
-    }
-#endif
 }
 
